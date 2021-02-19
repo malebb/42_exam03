@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "micro_paint.h"
 
 int		w;
 int		h;
@@ -65,8 +62,16 @@ int		is_int(float nbr)
 	int		nb;
 
 	nb = (int)nbr;
-	if ((nbr - nb) == 0)
-		return (1);
+	if (nbr < 0)
+	{
+		if ((nbr + nb) == 0)
+			return (1);
+	}
+	else
+	{
+		if ((nbr - nb) == 0)
+			return (1);
+	}
 	return (0);
 }
 
@@ -84,8 +89,6 @@ int		add_rect(FILE *file, char c, char **d_zone)
 
 	if (fscanf(file, "%f %f %f %f %c", &x, &y, &w_r, &h_r, &c_r) != 5)
 		return (0);
-	if (x < 0 || y < 0)
-		return (1);
 	if (w_r <= 0 || h_r <= 0)
 		return (1);
 	if (is_int(y))
@@ -114,7 +117,8 @@ int		add_rect(FILE *file, char c, char **d_zone)
 			}
 			while (j <= (int)(x + w_r) && j < w)
 			{
-				d_zone[i][j] = c_r;
+				if (i >= 0 && j >= 0)
+					d_zone[i][j] = c_r;
 				j++;
 			}
 			i++;
@@ -137,7 +141,10 @@ int		add_rect(FILE *file, char c, char **d_zone)
 			while (j <= (int)(x + w_r) && j < w)
 			{
 				if (i == (int)(y + h_r) || i == y_min || j == (int)(x + w_r) || j == x_min)
-					d_zone[i][j] = c_r;
+				{
+					if (i >= 0 && j >= 0)
+						d_zone[i][j] = c_r;
+				}
 				j++;
 			}
 			i++;

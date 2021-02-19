@@ -1,8 +1,4 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <math.h>
+#include "mini_paint.h"
 
 int		h;
 int		w;
@@ -71,8 +67,6 @@ int		add_circle(FILE *file, char c, char **d_zone)
 
 	if (fscanf(file, "%f %f %f %c", &x, &y, &rad, &c_c ) != 4)
 		return (0);
-	if (x < 0 || y < 0)
-		return (1);
 	if (rad <= 0)
 		return (0);
 	if (c == 'C')
@@ -85,7 +79,7 @@ int		add_circle(FILE *file, char c, char **d_zone)
 			{
 				if (sqrt(powf((i - y), 2) + powf((j - x), 2)) <= rad)
 					d_zone[i][j] = c_c;
-					j++;
+				j++;
 			}
 			i++;
 		}
@@ -100,7 +94,7 @@ int		add_circle(FILE *file, char c, char **d_zone)
 			{
 				if (sqrt(powf((i - y), 2) + powf((j - x), 2)) <= rad && sqrt(powf((i - y), 2) + powf((j - x), 2)) > rad - 1)
 					d_zone[i][j] = c_c;
-					j++;
+				j++;
 			}
 			i++;
 		}
